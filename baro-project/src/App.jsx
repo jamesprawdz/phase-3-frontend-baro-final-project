@@ -2,7 +2,7 @@ import {createBrowserRouter,RouterProvider,} from "react-router-dom";
 import LoginPage from "./LoginPage"
 import Home from "./Home";
 import About from "./About";
-import BarInfo from "./assets/BarInfo";
+import BarInfo from "./BarInfo";
 import Account from "./Account";
 import CreateABarCrawl from "./assets/CreateABarCrawl";
 import CrawlList from "./assets/CrawlLists";
