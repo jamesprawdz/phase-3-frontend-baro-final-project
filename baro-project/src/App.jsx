@@ -4,8 +4,8 @@ import Home from "./Home";
 import About from "./About";
 import BarInfo from "./BarInfo";
 import Account from "./Account";
-import CreateABarCrawl from "./assets/CreateABarCrawl";
-import CrawlList from "./assets/CrawlLists";
+import CreateABarCrawl from "./CreateABarCrawl";
+import CrawlList from "./CrawlLists";
 
 function App() {
 
