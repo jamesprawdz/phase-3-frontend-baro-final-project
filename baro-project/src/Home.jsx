@@ -28,13 +28,14 @@ export default function Home ({setClickedBar}){
     return(
         <div>
             {/* Test Buttons */}
-            <h1>Home Page</h1>
-            <button type="button" onClick={() => navigate('/')}> Sign Out</button>
-            <button type="button" onClick={() => navigate('/about')}> About</button>
-            <button type="button" onClick={() => navigate('/account')}> Account Info</button>
-            <button type="button" onClick={() => navigate('/newcrawl')}> Create a Crawl</button>
-            <button type="button" onClick={() => navigate('/crawllist')}> View all Crawls</button>
-
+            <h1 className="title">BarO</h1>
+            <div className="nav-bar">
+                <button type="button" onClick={() => navigate('/')}> Sign Out</button>
+                <button type="button" onClick={() => navigate('/about')}> About</button>
+                <button type="button" onClick={() => navigate('/account')}> Account Info</button>
+                <button type="button" onClick={() => navigate('/newcrawl')}> Create a Crawl</button>
+                <button type="button" onClick={() => navigate('/crawllist')}> View all Crawls</button>
+            </div>
             <div className="bar-crawl-container">
                 <div className="bar-crawl-list">
                 {crawlArray.map((bar) => {
@@ -109,9 +110,9 @@ function BarCard({type, setClickedBar, crawlArray, setCrawlArray, bar}) {
                 >
                 {/* show this ifo when we mouse over the bar image */}
                 <div className="bar-card-info" style={{opacity: mouseOverInfo}}>
-                    {bar.name}
-                    {bar.review}
-                    {bar.category}
+                    {bar.name}<br></br>
+                    {bar.review}<br></br>
+                    {bar.category}<br></br>
                     {bar.price}
                 </div>
                 <img 
