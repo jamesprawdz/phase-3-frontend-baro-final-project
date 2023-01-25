@@ -10,6 +10,7 @@ import CrawlList from "./CrawlLists";
 
 function App() {
 
+  const [loggedInUser, setLoggedInUser] = useState(1)
   const [clickedBar, setClickedBar] = useState()
 
   const router = createBrowserRouter([

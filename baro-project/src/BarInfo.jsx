@@ -14,12 +14,14 @@ export default function BarInfo({clickedBar}){
     useEffect(() => {
         fetchReviews()
     }, [])
-    
+    //find on the reviews that belong to the bar that we are showing 
     const filteredReviewArray = reviewArray.filter((review) =>{
         return clickedBar.id === review.bar_id
     })
+
+
+
     
-    console.log(filteredReviewArray)  
     return(
         <div>
             {/* Test info and buttons */}
@@ -54,12 +56,11 @@ export default function BarInfo({clickedBar}){
 
 
 function BarReviewCard({review}){
-
     return(
         <div className="bar-review-card">
-            <div className="review-author">{review.user_id}</div>
+            <div className="review-author">{review.user?.username}</div>
             <div className="review-rating">{review.star_rating}</div>
-            <body className="review-body">{review.content}</body>            
+            <div className="review-body">{review.content}</div>            
         </div>
     )
 }
