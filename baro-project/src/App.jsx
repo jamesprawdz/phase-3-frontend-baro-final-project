@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {createBrowserRouter,RouterProvider,} from "react-router-dom";
 import LoginPage from "./LoginPage"
 import Home from "./Home";
@@ -9,6 +10,7 @@ import CrawlList from "./CrawlLists";
 
 function App() {
 
+  const [clickedBar, setClickedBar] = useState()
 
   const router = createBrowserRouter([
     {
@@ -21,7 +23,9 @@ function App() {
     },
     {
       path: "/home",
-      element: <Home/>
+      element: <Home
+        setClickedBar={setClickedBar}
+      />
     },
     {
       path: "/about",
@@ -29,7 +33,9 @@ function App() {
     },
     {
       path:"/barinfo",
-      element: <BarInfo/>
+      element: <BarInfo
+      clickedBar={clickedBar}
+      />
     },
     {
       path: "/account",
