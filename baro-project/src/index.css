@@ -18,3 +18,54 @@
   margin-left: 25%;
   margin-top: 25%;  
 }
+
+.bar-container{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(6, 1fr);
+  align-items: stretch;
+  gap: 1em;
+  margin-left: 5%;
+  margin-top: 5%;
+}
+
+.bar-card{
+  border-style: solid;
+  border-width: 7px;
+  border-radius: 30px;
+  border-color: rgb(2, 67, 172);
+  height: fit-content;
+  width: 60%;
+  text-align: center;
+  cursor: pointer;
+}
+.bar-card-info{
+  text-align:  center;
+  display: grid;
+  position: relative;
+  top: 5em;
+  font-size: larger;
+  font-style: oblique;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  height: 3em;
+  color: rgb(255, 153, 29);
+}
+
+.nav-bar{
+  justify-content: center;
+  display: flex;
+}
+.nav-bar > button{
+  border-color: transparent;
+  font-size: larger;
+  color: rgb(255, 153, 29);
+}
+button:hover{
+  opacity: 0.3;
+  cursor: pointer;
+}
+.title{
+  color: rgb(2, 67, 172);
+ text-align: center;
+ font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
