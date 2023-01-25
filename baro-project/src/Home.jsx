@@ -1,3 +1,4 @@
+import { BentoTwoTone } from "@mui/icons-material"
 import { useState,  useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 
@@ -5,6 +6,8 @@ import { useNavigate } from "react-router-dom"
 export default function Home ({setClickedBar}){
     const navigate = useNavigate()
     const [barArray, setBarArray] = useState([])
+
+    const [crawlArray, setCrawlArray] = useState([])
 
 
     //fetch bars list
@@ -28,10 +31,31 @@ export default function Home ({setClickedBar}){
             <h1>Home Page</h1>
             <button type="button" onClick={() => navigate('/')}> Sign Out</button>
             <button type="button" onClick={() => navigate('/about')}> About</button>
-            <button type="button" onClick={() => navigate('/barinfo')}> Bar Info</button>
             <button type="button" onClick={() => navigate('/account')}> Account Info</button>
             <button type="button" onClick={() => navigate('/newcrawl')}> Create a Crawl</button>
             <button type="button" onClick={() => navigate('/crawllist')}> View all Crawls</button>
+
+            <div className="bar-crawl-container">
+                <div className="bar-crawl-list">
+                {crawlArray.map((bar) => {
+                    return(
+                        <BarCard
+                            type={'crawl'}
+                            setClickedBar={setClickedBar}
+                            key={bar.id}
+                            bar={bar}
+                            crawlArray={crawlArray}
+                            setCrawlArray={setCrawlArray}                            
+                        />
+                    )
+                })}
+                </div>
+                <button className="bar-crawl-button"
+                    onClick={() => setCrawlArray([])}
+                >Clear Crawl</button>
+                <button className="bar-crawl-button">Create Crawl</button>
+
+            </div>
 
 
             {/* display the list of bars  */}
@@ -39,7 +63,10 @@ export default function Home ({setClickedBar}){
                 {barArray.map((bar) => {
                     return(
                         <BarCard
+                            type={"main"}
                             setClickedBar={setClickedBar}
+                            crawlArray={crawlArray}
+                            setCrawlArray={setCrawlArray}
                             key={bar.id}
                             bar={bar}                            
                         />
@@ -52,42 +79,58 @@ export default function Home ({setClickedBar}){
 
 
 
-function BarCard({setClickedBar, bar}) {
+function BarCard({type, setClickedBar, crawlArray, setCrawlArray, bar}) {
     const navigate = useNavigate()
     //states to hold the opacity if the cards when the mouse goes over them
     const [mouseOverImage, setMouseOverImage] = useState(1)
     const [mouseOverInfo, setMouseOverInfo] = useState(0)
 
+    function handleClick(bar){
+        if(type === "main"){            
+            setClickedBar(bar)
+            navigate('/barinfo')
+        }
+    }
+
     return (
-        <div 
-            className="bar-card"
-            // fades and unfades the bar image and text when the mouse hovers over it
-            onMouseOver={()=>(
-                setMouseOverImage(.3),
-                setMouseOverInfo(1)
-            )}
-            onMouseLeave={()=>(
-                setMouseOverImage(1),
-                setMouseOverInfo(0)
-            )}
-             onClick={() => (
-                setClickedBar(bar),
-                navigate('/barinfo')
+        <div className={type === "main" ? "bar-card" : "crawl-card"} >
+            <div 
+                className={type === "main" ? "bar-card-inner" : "crawl-card-inner"} 
+                // fades and unfades the bar image and text when the mouse hovers over it
+                onMouseOver={()=>(
+                    setMouseOverImage(.3),
+                    setMouseOverInfo(1)
                 )}
-            >
-            {/* show this ifo when we mouse over the bar image */}
-            <div className="bar-card-info" style={{opacity: mouseOverInfo}}>
-                {bar.name}
-                {bar.review}
-                {bar.category}
-                {bar.price}
+                onMouseLeave={()=>(
+                    setMouseOverImage(1),
+                    setMouseOverInfo(0)
+                )}                
+                onClick={() => handleClick(bar)}
+                >
+                {/* show this ifo when we mouse over the bar image */}
+                <div className="bar-card-info" style={{opacity: mouseOverInfo}}>
+                    {bar.name}
+                    {bar.review}
+                    {bar.category}
+                    {bar.price}
+                </div>
+                <img 
+                    className="bar-card-image" 
+                    src="https://www.shareicon.net/data/256x256/2016/11/16/854564_bar_512x512.png" 
+                    alt={bar.name} 
+                    style={{opacity: mouseOverImage}} 
+                />
             </div>
-            <img 
-                className="bar-card-image" 
-                src="https://www.shareicon.net/data/256x256/2016/11/16/854564_bar_512x512.png" 
-                alt={bar.name} 
-                style={{opacity: mouseOverImage}} 
-            />
+            {type === "main"
+                ?<button 
+                className="bar-card-button"
+                onClick={() => (
+                    setCrawlArray([...crawlArray, bar])
+                    )}
+            >Add To Crawl
+            </button>
+            :<div></div>
+            }
         </div>
     )
 }
