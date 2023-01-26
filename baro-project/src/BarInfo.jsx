@@ -4,6 +4,20 @@ import { useNavigate } from "react-router-dom";
 export default function BarInfo({clickedBar}){
     const navigate = useNavigate()
     const [reviewArray, setReviewArray] = useState([])
+    const [userArray, setUserArray] = useState([])
+
+
+     //fetch user info
+     const fetchUsers = async () => {
+        const req = await fetch('http://localhost:9292/users')
+        const res = await req.json()
+        setUserArray(res)
+    }
+    useEffect(() => {
+        fetchUsers()
+    }, [])
+    
+
 
     //fetch review list
     const fetchReviews = async () => {
@@ -23,7 +37,7 @@ export default function BarInfo({clickedBar}){
     })
 
 
-    
+    console.log(reviewArray[0])
     
     return(
         <div>
@@ -46,6 +60,7 @@ export default function BarInfo({clickedBar}){
                         <BarReviewCard
                             key={review.user_id}
                             review={review}
+                            userArray={userArray}
                         />
                     )
                 })}
@@ -58,10 +73,15 @@ export default function BarInfo({clickedBar}){
 
 
 
-function BarReviewCard({review}){
+function BarReviewCard({review, userArray}){
+
+    let reviewUser = userArray.filter((user) =>{
+        return user.id === review.user_id
+    })
+
     return(
         <div className="bar-review-card">
-            <div className="review-author">{review.user?.username}</div>
+            <div className="review-author">{reviewUser[0].display_name}</div>
             <div className="review-rating">{review.star_rating}</div>
             <div className="review-body">{review.content}</div>            
         </div>

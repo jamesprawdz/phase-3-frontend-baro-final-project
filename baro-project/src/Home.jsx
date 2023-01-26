@@ -3,7 +3,7 @@ import { useState,  useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 
 
-export default function Home ({setClickedBar, setBarCrawlData}){
+export default function Home ({setClickedBar, setBarCrawlData, setLoggedInUser}){
     const navigate = useNavigate()
     const [barArray, setBarArray] = useState([])
 
@@ -30,12 +30,17 @@ export default function Home ({setClickedBar, setBarCrawlData}){
         navigate('/newcrawl')        
      }
 
+     function logOut(){
+        setLoggedInUser(undefined)
+        navigate('/')
+     }
+
      
     return(
         <div>
             {/* Test Buttons */}
             <h1>Home Page</h1>
-            <button type="button" onClick={() => navigate('/')}> Sign Out</button>
+            <button type="button" onClick={() => logOut()}> Sign Out</button>
             <button type="button" onClick={() => navigate('/about')}> About</button>
             <button type="button" onClick={() => navigate('/account')}> Account Info</button>
             <button type="button" onClick={() => navigate('/crawllist')}> View all Crawls</button>
@@ -128,7 +133,7 @@ function BarCard({type, setClickedBar, crawlArray, setCrawlArray, bar}) {
                 </div>
                 <img 
                     className="bar-card-image" 
-                    src="https://www.shareicon.net/data/256x256/2016/11/16/854564_bar_512x512.png" 
+                    src={bar.image} 
                     alt={bar.name} 
                     style={{opacity: mouseOverImage}} 
                 />
