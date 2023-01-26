@@ -42,6 +42,7 @@ export default function Home ({setClickedBar, setBarCrawlData}){
             <button type="button" onClick={() => navigate('/account')}> Account Info</button>
             <button type="button" onClick={() => navigate('/crawllist')}> View all Crawls</button>
 
+
             <div className="bar-crawl-container">
                 <div className="bar-crawl-list">
                 {crawlArray.map((bar) => {
@@ -122,9 +123,9 @@ function BarCard({type, setClickedBar, crawlArray, setCrawlArray, bar}) {
                 >
                 {/* show this ifo when we mouse over the bar image */}
                 <div className="bar-card-info" style={{opacity: mouseOverInfo}}>
-                    {bar.name}
-                    {bar.review}
-                    {bar.category}
+                    {bar.name}<br></br>
+                    {bar.review}<br></br>
+                    {bar.category}<br></br>
                     {bar.price}
                 </div>
                 <img 
