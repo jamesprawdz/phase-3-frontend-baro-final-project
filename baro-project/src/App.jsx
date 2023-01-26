@@ -44,6 +44,7 @@ function App() {
       path:"/barinfo",
       element: <BarInfo
         clickedBar={clickedBar}
+        loggedInUser={loggedInUser}
       />
     },
     {
