@@ -14,13 +14,27 @@ export default function BarInfo({clickedBar}){
     useEffect(() => {
         fetchReviews()
     }, [])
+    if (!reviewArray[0]) return null
+
+    
     //find on the reviews that belong to the bar that we are showing 
     const filteredReviewArray = reviewArray.filter((review) =>{
         return clickedBar.id === review.bar_id
     })
 
+    const handleUpdateReview = (updatedReviewObj) => {
+        const updatedReview = reviewArray.map((review) => {
+            if (review.id === updatedReviewObj.id) {
+                return updatedReviewObj;
+        } else {
+            return review;
+          }
+        });
+        setReviewArray(updatedReview)
+    }
+    console.log(clickedBar.id)
 
-
+    
     
     return(
         <div>
@@ -43,6 +57,7 @@ export default function BarInfo({clickedBar}){
                         <BarReviewCard
                             key={review.user_id}
                             review={review}
+                            onUpdateReview={handleUpdateReview}
                         />
                     )
                 })}
@@ -55,12 +70,46 @@ export default function BarInfo({clickedBar}){
 
 
 
-function BarReviewCard({review}){
+function BarReviewCard({id, review, onUpdateReview}){
+    const [reviewBody, setReviewBody] = useState("")
+
+    const handleReviewEdit = (e) => {
+        e.preventDefault();
+
+         fetch(`http://localhost:9292/reviews/${id}`,{
+            method: 'PATCH',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                content: reviewBody
+            })
+        })
+        .then((r) => r.json())
+        .then((updatedReview) => onUpdateReview(updatedReview))
+    }
+
+    // const [edit, setEdit] = useState(false);
+
+    // const handleUpdateReview = (updatedReview) => {
+    //     setEdit(false)
+    //     onUpdateReview(updatedReview);
+    // }
     return(
         <div className="bar-review-card">
             <div className="review-author">{review.user?.username}</div>
             <div className="review-rating">{review.star_rating}</div>
-            <div className="review-body">{review.content}</div>            
+            <div className="review-body">{review.content}</div>     
+            <button className="edit-button">Edit</button> 
+            <form className="edt-form" onSubmit={handleReviewEdit}>
+                <input 
+                    type="text"
+                    name="content"
+                    value={reviewBody}
+                    onChange={(e) => setReviewBody(e.target.value)}
+                />
+                <input type="submit" value="Save"/>
+            </form>      
         </div>
     )
 }

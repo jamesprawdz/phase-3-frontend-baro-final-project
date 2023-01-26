@@ -3,7 +3,6 @@
 }
 
 .login-background{
-  background-image: url(https://citizenside.com/wp-content/uploads/2022/12/bar-hopping-1-1170x780.jpg);
   background-size: cover;
   height: 100vh;
   padding:0;
@@ -146,5 +145,12 @@ button{
 
 .bar-crawl-list{
   display: flex;
-  gap: 1em;
+  gap: 10em;
+}
+
+.crawl-arrow{
+  position: relative;
+  left: 117%;
+  bottom: 40%;
+background-color: transparent;
 }

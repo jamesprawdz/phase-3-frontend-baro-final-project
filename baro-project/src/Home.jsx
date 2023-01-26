@@ -3,7 +3,7 @@ import { useState,  useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 
 
-export default function Home ({setClickedBar}){
+export default function Home ({setClickedBar, setBarCrawlData}){
     const navigate = useNavigate()
     const [barArray, setBarArray] = useState([])
 
@@ -20,19 +20,18 @@ export default function Home ({setClickedBar}){
         fetchBars()
     }, [])  
 
-    //remove bar from bar-crawl list
-    // const removeBar = (barToRmove) => {
-    //     setCrawlArray(crawlArray.filter((bar) => {
-    //         return bar.id !== barToRmove.id
-    //     }))
-    // }
+
+     function handleCreateCrawlClick(){
+        const crawlBarIDArray = crawlArray.map((bar) => {
+            return bar.id
+        })
+        let stringcrawlBarIDArray = crawlBarIDArray.toString()
+        setBarCrawlData(stringcrawlBarIDArray)
+        navigate('/newcrawl')        
+     }
 
 
      
-
-    
-
-
     return(
         <div className="homepage">
             {/* Test Buttons */}
@@ -54,6 +53,7 @@ export default function Home ({setClickedBar}){
                     <div className="bar-crawl-list">
                     {crawlArray.map((bar) => {
                         return(
+                            <div>
                             <BarCard
                                 type={'crawl'}
                                 setClickedBar={setClickedBar}
@@ -62,13 +62,20 @@ export default function Home ({setClickedBar}){
                                 crawlArray={crawlArray}
                                 setCrawlArray={setCrawlArray}                            
                             />
+                            <h1 className="crawl-arrow">----></h1>
+                            </div>
                         )
                     })}
                     </div>
                 <button className="bar-crawl-button"
                     onClick={() => setCrawlArray([])}
-                >Clear Crawl</button>
-                <button className="bar-crawl-button">Create Crawl</button>
+                >Clear Crawl
+                </button>
+                <button 
+                    className="bar-crawl-button"
+                    onClick={() => handleCreateCrawlClick()}
+                >Create Crawl
+                </button>
 
             </div>
 
