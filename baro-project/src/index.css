@@ -69,3 +69,10 @@ button:hover{
  text-align: center;
  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+
+.bar-card-image{
+  height: 10em;
+  width: 10em;
+  margin-left: 5%;
+  margin-top: 5%;
+}

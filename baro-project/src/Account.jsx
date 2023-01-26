@@ -4,9 +4,10 @@ import { useNavigate } from "react-router-dom";
 export default function Account ({loggedInUser}){
     const navigate = useNavigate()
 
+    //state to hold all the reviews
     const [reviewArray, setReviewArray] = useState([])
 
-    //fetch review list
+    //fetch all the reviews
     const fetchReviews = async () => {
         const req = await fetch('http://localhost:9292/reviews')
         const res = await req.json()
@@ -15,9 +16,10 @@ export default function Account ({loggedInUser}){
     useEffect(() => {
         fetchReviews()
     }, [])
+    //stops the code from running if the fetch for the reviews hasn't finished
     if (!reviewArray[0]) return null
 
-
+    //filter the reviews to only show the reviews that belong to the logged in user
     const filteredUserReviewArray = reviewArray.filter((review) =>{
         if (loggedInUser === undefined){
             return null
@@ -25,7 +27,7 @@ export default function Account ({loggedInUser}){
         return loggedInUser.id === review.user_id
     })
 
-
+    //if the user is not logged in, don't show and info on this page and tell them to log in
     if (loggedInUser === undefined){
         return(
             <div>
@@ -35,6 +37,7 @@ export default function Account ({loggedInUser}){
             </div>
         )
     }
+    //if there is a logged in user, show this info on the page
     else{
         return(
             <div>
@@ -45,6 +48,7 @@ export default function Account ({loggedInUser}){
                 <div className="user-text">Password:  {loggedInUser.password}</div>
                 <div className="user-review-container">
                     <h2>Your Reviews</h2>
+                    {/* show all of the users reviews */}
                     {filteredUserReviewArray.map((review) => {
                     return (
                         <UserReviewCard
@@ -59,6 +63,7 @@ export default function Account ({loggedInUser}){
     }
 }
 
+//the card that shows each of the user's reviews
 function UserReviewCard({review}){
     return(
         <div className="user-review-card">
