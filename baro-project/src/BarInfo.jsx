@@ -3,11 +3,12 @@ import { useNavigate } from "react-router-dom";
 
 export default function BarInfo({clickedBar}){
     const navigate = useNavigate()
+    //states used
     const [reviewArray, setReviewArray] = useState([])
     const [userArray, setUserArray] = useState([])
 
 
-     //fetch user info
+     //fetch user list
      const fetchUsers = async () => {
         const req = await fetch('http://localhost:9292/users')
         const res = await req.json()
@@ -16,8 +17,6 @@ export default function BarInfo({clickedBar}){
     useEffect(() => {
         fetchUsers()
     }, [])
-    
-
 
     //fetch review list
     const fetchReviews = async () => {
@@ -36,15 +35,12 @@ export default function BarInfo({clickedBar}){
         return clickedBar.id === review.bar_id
     })
 
-
-    console.log(reviewArray[0])
     
     return(
         <div>
-            {/* Test info and buttons */}
             <h1>Bar Info</h1>
             <button type="button" onClick={() => navigate('/home')}> Home</button>
-
+            {/* info about the bar */}
             <h1 className="bar-info-name">{clickedBar.name}</h1>
             <img className="bar-info-name" src={clickedBar.image} alt={clickedBar.name}/>
             <h2 className="bar-info-rating">{clickedBar.rating}</h2>
@@ -53,7 +49,7 @@ export default function BarInfo({clickedBar}){
             <h2 className="bar-info-price">{clickedBar.price}</h2>
             <h2 className="bar-info-closing-time">{clickedBar.closing_time}</h2>
 
-
+            {/* show all of the reviews for this bar */}
             <div className="bar-reivew-container">
                 {filteredReviewArray.map((review) => {
                     return (
@@ -72,13 +68,13 @@ export default function BarInfo({clickedBar}){
 
 
 
-
+//each individual review card for the bar
 function BarReviewCard({review, userArray}){
-
+    //find the username that wrote the review
     let reviewUser = userArray.filter((user) =>{
         return user.id === review.user_id
     })
-
+    //contenets of the review
     return(
         <div className="bar-review-card">
             <div className="review-author">{reviewUser[0].display_name}</div>

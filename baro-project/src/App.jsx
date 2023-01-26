@@ -10,14 +10,13 @@ import CrawlList from "./CrawlLists";
 
 function App() {
 
+  //global states that sibiling compnenets may need to access
   const [loggedInUser, setLoggedInUser] = useState()
   const [clickedBar, setClickedBar] = useState()
-  const [barCrawlData,  setBarCrawlData] = useState()
-
-  
+  const [barCrawlData,  setBarCrawlData] = useState() 
 
 
-
+  //all the routes
   const router = createBrowserRouter([
     {
       path: "*",

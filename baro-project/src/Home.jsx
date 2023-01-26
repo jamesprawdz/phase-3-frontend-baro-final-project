@@ -5,12 +5,11 @@ import { useNavigate } from "react-router-dom"
 
 export default function Home ({setClickedBar, setBarCrawlData, setLoggedInUser}){
     const navigate = useNavigate()
+    //states list 
     const [barArray, setBarArray] = useState([])
-
     const [crawlArray, setCrawlArray] = useState([])
 
-
-    //fetch bars list
+    //fetch all the bars 
     const fetchBars = async () => {
         const req = await fetch('http://localhost:9292/bars')
         const res = await req.json()
@@ -20,16 +19,23 @@ export default function Home ({setClickedBar, setBarCrawlData, setLoggedInUser})
         fetchBars()
     }, [])  
 
-
+    //function so when we create a crawl, we save the ID's of the bar that we will have on the crawl 
+    //as a string and pass it to the new crawl page through states
      function handleCreateCrawlClick(){
+        //make an array of the ID's of the bars in the crawl
         const crawlBarIDArray = crawlArray.map((bar) => {
             return bar.id
         })
+        //turn that array into a string
         let stringcrawlBarIDArray = crawlBarIDArray.toString()
+        //set the state of the barCrawlData to the string of the ID's of the bars in the crawl
         setBarCrawlData(stringcrawlBarIDArray)
+        //navigate to the new crawl page
         navigate('/newcrawl')        
      }
 
+     //function to log out by setting the state of the logged in user to undefined
+     //and navigating back to the login page
      function logOut(){
         setLoggedInUser(undefined)
         navigate('/')
@@ -48,18 +54,19 @@ export default function Home ({setClickedBar, setBarCrawlData, setLoggedInUser})
 
             <div className="bar-crawl-container">
                 <div className="bar-crawl-list">
-                {crawlArray.map((bar) => {
-                    return(
-                        <BarCard
-                            type={'crawl'}
-                            setClickedBar={setClickedBar}
-                            key={bar.id}
-                            bar={bar}
-                            crawlArray={crawlArray}
-                            setCrawlArray={setCrawlArray}                            
-                        />
-                    )
-                })}
+                    {/* show all the bars that were added to the crawl array */}
+                    {crawlArray.map((bar) => {
+                        return(
+                            <BarCard
+                                type={'crawl'}
+                                setClickedBar={setClickedBar}
+                                key={bar.id}
+                                bar={bar}
+                                crawlArray={crawlArray}
+                                setCrawlArray={setCrawlArray}                            
+                            />
+                        )
+                    })}
                 </div>
                 <button 
                     className="bar-crawl-button"
@@ -75,7 +82,7 @@ export default function Home ({setClickedBar, setBarCrawlData, setLoggedInUser})
             </div>
 
 
-            {/* display the list of bars  */}
+            {/* display all the bars  */}
             <div className="bar-container">
                 {barArray.map((bar) => {
                     return(
@@ -102,6 +109,8 @@ function BarCard({type, setClickedBar, crawlArray, setCrawlArray, bar}) {
     const [mouseOverImage, setMouseOverImage] = useState(1)
     const [mouseOverInfo, setMouseOverInfo] = useState(0)
 
+    //if you click on the bar card, it will navigate to the bar info page
+    //and then send the info of that clicked bar to the bar info page with states
     function handleClick(bar){
         if(type === "main"){            
             setClickedBar(bar)
@@ -110,6 +119,7 @@ function BarCard({type, setClickedBar, crawlArray, setCrawlArray, bar}) {
     }
 
     return (
+        //change the class name depending on if it is a main bar card or a crawl bar card
         <div className={type === "main" ? "bar-card" : "crawl-card"} >
             <div 
                 className={type === "main" ? "bar-card-inner" : "crawl-card-inner"} 
@@ -121,7 +131,8 @@ function BarCard({type, setClickedBar, crawlArray, setCrawlArray, bar}) {
                 onMouseLeave={()=>(
                     setMouseOverImage(1),
                     setMouseOverInfo(0)
-                )}                
+                )}
+                //if you click on the bar card, it will navigate to the bar info page                
                 onClick={() => handleClick(bar)}
                 >
                 {/* show this ifo when we mouse over the bar image */}
@@ -138,6 +149,7 @@ function BarCard({type, setClickedBar, crawlArray, setCrawlArray, bar}) {
                     style={{opacity: mouseOverImage}} 
                 />
             </div>
+            {/* show the button to add to a crawl only if we are a main bar card */}
             {type === "main"
                 ?<button 
                 className="bar-card-button"
@@ -146,7 +158,7 @@ function BarCard({type, setClickedBar, crawlArray, setCrawlArray, bar}) {
                     )}
             >Add To Crawl
             </button>
-            :<div></div>
+            :<></>
             }
         </div>
     )
