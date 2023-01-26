@@ -1,3 +1,4 @@
+import { CoPresentSharp } from "@mui/icons-material";
 import { useState,  useEffect } from "react"
 import { useNavigate } from "react-router-dom";
 
@@ -22,18 +23,18 @@ export default function BarInfo({clickedBar}){
         return clickedBar.id === review.bar_id
     })
 
-    const handleUpdateReview = (updatedReviewObj) => {
-        const updatedReview = reviewArray.map((review) => {
-            if (review.id === updatedReviewObj.id) {
-                return updatedReviewObj;
+    const handleUpdateReview = (updatedReview) => {
+        const updatedReviews = reviewArray.map((review) => {
+            if (review.id === updatedReview.id) {
+                return updatedReview;
         } else {
             return review;
           }
         });
-        setReviewArray(updatedReview)
-    }
-    console.log(clickedBar.id)
-
+        setReviewArray(updatedReviews)
+    //     console.log("Edit Complete:", updatedReview)
+     }
+    
     
     
     return(
@@ -55,12 +56,12 @@ export default function BarInfo({clickedBar}){
                 {filteredReviewArray.map((review) => {
                     return (
                         <BarReviewCard
-                            key={review.user_id}
-                            review={review}
-                            onUpdateReview={handleUpdateReview}
+                        key={review.user_id}
+                        review={review}
+                        onUpdateReview={handleUpdateReview}
                         />
-                    )
-                })}
+                        )
+                    })}
             </div>
 
         </div>
@@ -70,46 +71,54 @@ export default function BarInfo({clickedBar}){
 
 
 
-function BarReviewCard({id, review, onUpdateReview}){
-    const [reviewBody, setReviewBody] = useState("")
+function BarReviewCard({review, onUpdateReview}){
+    const [contentBody, setContentBody] = useState(review.content)
+    const [starBody, setStarBody] = useState(review.star_rating)
+    const  [toggleEdit, setToggleEdit]  = useState(false);
 
+    const handleEditToggle = () => {
+        setToggleEdit(!toggleEdit)
+    }
+    
     const handleReviewEdit = (e) => {
         e.preventDefault();
-
-         fetch(`http://localhost:9292/reviews/${id}`,{
+        
+        fetch(`http://localhost:9292/reviews/${review.id}`,{
             method: 'PATCH',
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                content: reviewBody
+                content: contentBody,
+                star_rating: starBody
             })
         })
         .then((r) => r.json())
         .then((updatedReview) => onUpdateReview(updatedReview))
     }
-
-    // const [edit, setEdit] = useState(false);
-
-    // const handleUpdateReview = (updatedReview) => {
-    //     setEdit(false)
-    //     onUpdateReview(updatedReview);
-    // }
-    return(
+    
+        return(
         <div className="bar-review-card">
             <div className="review-author">{review.user?.username}</div>
             <div className="review-rating">{review.star_rating}</div>
             <div className="review-body">{review.content}</div>     
-            <button className="edit-button">Edit</button> 
-            <form className="edt-form" onSubmit={handleReviewEdit}>
+            <button className="edit-button" onClick={handleEditToggle}>Edit</button> 
+            {toggleEdit ? <form className="edt-form" onSubmit={handleReviewEdit}>
                 <input 
                     type="text"
                     name="content"
-                    value={reviewBody}
-                    onChange={(e) => setReviewBody(e.target.value)}
-                />
+                    value={contentBody}
+                    onChange={(e) => setContentBody(e.target.value)}
+                    />
+                <input  
+                    type="text"
+                    name="star_rating"
+                    value={starBody}
+                    onChange={(e) => setStarBody(e.target.value)}
+                    />
                 <input type="submit" value="Save"/>
-            </form>      
+            </form> : null}    
+            {console.log(review.user?.username)}
         </div>
     )
 }
