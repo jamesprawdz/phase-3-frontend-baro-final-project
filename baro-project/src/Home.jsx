@@ -3,7 +3,7 @@ import { useState,  useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 
 
-export default function Home ({setClickedBar}){
+export default function Home ({setClickedBar, setBarCrawlData}){
     const navigate = useNavigate()
     const [barArray, setBarArray] = useState([])
 
@@ -20,7 +20,15 @@ export default function Home ({setClickedBar}){
         fetchBars()
     }, [])  
 
-     
+
+     function handleCreateCrawlClick(){
+        const crawlBarIDArray = crawlArray.map((bar) => {
+            return bar.id
+        })
+        let stringcrawlBarIDArray = crawlBarIDArray.toString()
+        setBarCrawlData(stringcrawlBarIDArray)
+        navigate('/newcrawl')        
+     }
 
     
 
@@ -32,7 +40,6 @@ export default function Home ({setClickedBar}){
             <button type="button" onClick={() => navigate('/')}> Sign Out</button>
             <button type="button" onClick={() => navigate('/about')}> About</button>
             <button type="button" onClick={() => navigate('/account')}> Account Info</button>
-            <button type="button" onClick={() => navigate('/newcrawl')}> Create a Crawl</button>
             <button type="button" onClick={() => navigate('/crawllist')}> View all Crawls</button>
 
             <div className="bar-crawl-container">
@@ -50,10 +57,16 @@ export default function Home ({setClickedBar}){
                     )
                 })}
                 </div>
-                <button className="bar-crawl-button"
+                <button 
+                    className="bar-crawl-button"
                     onClick={() => setCrawlArray([])}
-                >Clear Crawl</button>
-                <button className="bar-crawl-button">Create Crawl</button>
+                >Clear Crawl
+                </button>
+                <button 
+                    className="bar-crawl-button"
+                    onClick={() => handleCreateCrawlClick()}
+                >Create Crawl
+                </button>
 
             </div>
 

@@ -5,13 +5,14 @@ import Home from "./Home";
 import About from "./About";
 import BarInfo from "./BarInfo";
 import Account from "./Account";
-import CreateABarCrawl from "./CreateABarCrawl";
+import NewCrawl from "./NewCrawl";
 import CrawlList from "./CrawlLists";
 
 function App() {
 
   const [loggedInUser, setLoggedInUser] = useState(1)
   const [clickedBar, setClickedBar] = useState()
+  const [barCrawlData,  setBarCrawlData] = useState()
 
   const router = createBrowserRouter([
     {
@@ -26,6 +27,7 @@ function App() {
       path: "/home",
       element: <Home
         setClickedBar={setClickedBar}
+        setBarCrawlData={setBarCrawlData}
       />
     },
     {
@@ -35,7 +37,7 @@ function App() {
     {
       path:"/barinfo",
       element: <BarInfo
-      clickedBar={clickedBar}
+        clickedBar={clickedBar}
       />
     },
     {
@@ -44,7 +46,9 @@ function App() {
     },
     {
       path: "/newcrawl",
-      element: <CreateABarCrawl/>
+      element: <NewCrawl
+        barCrawlData={barCrawlData}
+      />
     },
     {
       path: "/crawllist",
