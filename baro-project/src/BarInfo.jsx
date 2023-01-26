@@ -1,7 +1,8 @@
 import { useState,  useEffect } from "react"
 import { useNavigate } from "react-router-dom";
+import { Form } from "semantic-ui-react";
 
-export default function BarInfo({clickedBar}){
+export default function BarInfo({clickedBar, loggedInUser}){
     const navigate = useNavigate()
     //states used
     const [reviewArray, setReviewArray] = useState([])
@@ -48,7 +49,9 @@ export default function BarInfo({clickedBar}){
             <h2 className="bar-info-location">{clickedBar.location}</h2>
             <h2 className="bar-info-price">{clickedBar.price}</h2>
             <h2 className="bar-info-closing-time">{clickedBar.closing_time}</h2>
-
+            {/* form to write a review */}
+            <BarReviewForm loggedInUser={loggedInUser}/>
+            <br></br>
             {/* show all of the reviews for this bar */}
             <div className="bar-reivew-container">
                 {filteredReviewArray.map((review) => {
@@ -82,4 +85,28 @@ function BarReviewCard({review, userArray}){
             <div className="review-body">{review.content}</div>            
         </div>
     )
+}
+
+function BarReviewForm ({loggedInUser}){
+    const [reviewScore, setReviewScore] = useState()
+    const [reviewContent, setReviewContent] = useState("")
+    //if there is no user logged in, show a message
+    if(loggedInUser === undefined){
+        return(
+            <div className="review-no-login"> Please Login to Post a Reiview </div>
+        )
+    }else{
+        return(
+            <div>
+                <Form>
+                    <h3>Write a Review</h3>
+                    <h5>By {loggedInUser.username}</h5>
+                    <Form.Input fluid placeholder="Score" onChange={(e) => setReviewScore(e.target.value)}/>
+                    <Form.Input fluid placeholder="Content" onChange={(e) => setReviewContent(e.target.value)}/>
+                    <Form.Button type="submit">Post Review</Form.Button>
+                </Form>
+            </div>
+        )
+    }
+
 }
