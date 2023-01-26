@@ -30,9 +30,7 @@ export default function Home ({setClickedBar, setBarCrawlData}){
         navigate('/newcrawl')        
      }
 
-    
-
-
+     
     return(
         <div>
             {/* Test Buttons */}

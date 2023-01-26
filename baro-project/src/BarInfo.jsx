@@ -14,13 +14,16 @@ export default function BarInfo({clickedBar}){
     useEffect(() => {
         fetchReviews()
     }, [])
+    if (!reviewArray[0]) return null
+
+    
     //find on the reviews that belong to the bar that we are showing 
     const filteredReviewArray = reviewArray.filter((review) =>{
         return clickedBar.id === review.bar_id
     })
 
 
-
+    
     
     return(
         <div>

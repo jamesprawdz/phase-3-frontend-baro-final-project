@@ -32,8 +32,6 @@ export default function NewCrawl(barCrawlData){
         barCrawlArray.push(barCrawlDummy)
     })
 
-    // console.log(barCrawlArray)
-
 
     return(
         <div>
@@ -50,7 +48,6 @@ export default function NewCrawl(barCrawlData){
 
 
 function CrawlBar({bar}){
-    // {console.log(bar.name)}
     return(
         <div>
             You are going to {bar[0].name}
