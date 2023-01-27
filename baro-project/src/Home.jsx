@@ -10,7 +10,7 @@ export default function Home ({setClickedBar, setBarCrawlData, setLoggedInUser, 
     //states list 
     const [barArray, setBarArray] = useState([])
     const [crawlArray, setCrawlArray] = useState([])
-    const [stringcrawlBarIDArray, setStringcrawlBarIDArray] = useState([])
+    const [stringcrawlBarIDArray, setStringcrawlBarIDArray] = useState()
 
     //fetch all the bars 
     const fetchBars = async () => {
@@ -46,11 +46,17 @@ export default function Home ({setClickedBar, setBarCrawlData, setLoggedInUser, 
             return bar.id
         })
         //turn that array into a string
-        setStringcrawlBarIDArray(crawlBarIDArray.toString())
+        let stringcrawlBarIDArrayWorkAround = crawlBarIDArray.toString()
         //set the state of the barCrawlData to the string of the ID's of the bars in the crawl
-        setBarCrawlData(stringcrawlBarIDArray)
+        setBarCrawlData(stringcrawlBarIDArrayWorkAround)
+        setStringcrawlBarIDArray(stringcrawlBarIDArrayWorkAround)
+
+        console.log(stringcrawlBarIDArrayWorkAround)
+        console.log(stringcrawlBarIDArray)
         //navigate to the new crawl page
-        addCrawls()
+
+        // addCrawls()
+        
         navigate('/newcrawl')        
      }
 
@@ -72,7 +78,7 @@ export default function Home ({setClickedBar, setBarCrawlData, setLoggedInUser, 
                 <button type="button" onClick={() => navigate('/about')}> About</button>
                 <button type="button" onClick={() => navigate('/crawllist')}> View all Crawls</button>
                 <button type="button" onClick={() => navigate('/account')}> Account Info</button>
-                <button type="button" onClick={() => navigate('/')}> Exit</button>
+                <button type="button" onClick={() => logOut()}> Exit</button>
             </div>
             <img className="home-image" src="https://citizenside.com/wp-content/uploads/2022/12/bar-hopping-1-1170x780.jpg" />
             <h1 className="title">BarO</h1>
