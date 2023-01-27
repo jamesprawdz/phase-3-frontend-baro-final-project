@@ -38,8 +38,8 @@ export default function CrawlList() {
     )
 }
 
-function BarCrawl(crawl){
-   
+
+function BarCrawl(crawl){   
 
     const [barArray, setBarArray] = useState([])
 
@@ -68,10 +68,12 @@ function BarCrawl(crawl){
         barCrawlArray.push(barCrawlDummy)
     })
 
+    console.log(crawl)
+
     return(
         <div className="bar-crawl">
             <div className="crawl-name">Crawl Name: {crawl.crawl.bar_crawl_name}</div>
-            <div>Crawl Made by: {crawl.user?.username}</div>
+            {/* <div>Crawl Made by: {crawl.crawl.user?.username}</div> */}
             <div>Bars in this Crawl:</div>
             {barCrawlArray.map((bar) => {
                 return(
