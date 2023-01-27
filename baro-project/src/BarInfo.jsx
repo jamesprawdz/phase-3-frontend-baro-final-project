@@ -151,7 +151,8 @@ function BarReviewCard({review, userArray, onUpdateReview}){
                 .then((r) => r.json())
                 .then((deletedReview) => {
                     onUpdateReview(deletedReview)
-                })
+                }),
+                e.target.parentElement.remove()
             }}
             >Delete</button>
         </div>
