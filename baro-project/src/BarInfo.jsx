@@ -1,3 +1,4 @@
+import { CoPresentSharp } from "@mui/icons-material";
 import { useState,  useEffect } from "react"
 import { useNavigate } from "react-router-dom";
 import { Form } from "semantic-ui-react";
@@ -36,6 +37,19 @@ export default function BarInfo({clickedBar, loggedInUser}){
         return clickedBar.id === review.bar_id
     })
 
+
+    const handleUpdateReview = (updatedReview) => {
+        const updatedReviews = reviewArray.map((review) => {
+            if (review.id === updatedReview.id) {
+                return updatedReview;
+        } else {
+            return review;
+          }
+        });
+        setReviewArray(updatedReviews)
+    //     console.log("Edit Complete:", updatedReview)
+     }
+    
     
     return(
         <div>
@@ -57,12 +71,14 @@ export default function BarInfo({clickedBar, loggedInUser}){
                 {filteredReviewArray.map((review) => {
                     return (
                         <BarReviewCard
-                            key={review.user_id}
-                            review={review}
-                            userArray={userArray}
+
+                        key={review.user_id}
+                        review={review}
+                        onUpdateReview={handleUpdateReview}
+
                         />
-                    )
-                })}
+                        )
+                    })}
             </div>
 
         </div>
@@ -71,18 +87,57 @@ export default function BarInfo({clickedBar, loggedInUser}){
 
 
 
-//each individual review card for the bar
-function BarReviewCard({review, userArray}){
-    //find the username that wrote the review
-    let reviewUser = userArray.filter((user) =>{
-        return user.id === review.user_id
-    })
-    //contenets of the review
-    return(
+
+
+function BarReviewCard({review, onUpdateReview}){
+    const [contentBody, setContentBody] = useState(review.content)
+    const [starBody, setStarBody] = useState(review.star_rating)
+    const  [toggleEdit, setToggleEdit]  = useState(false);
+
+    const handleEditToggle = () => {
+        setToggleEdit(!toggleEdit)
+    }
+    
+    const handleReviewEdit = (e) => {
+        e.preventDefault();
+        
+        fetch(`http://localhost:9292/reviews/${review.id}`,{
+            method: 'PATCH',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                content: contentBody,
+                star_rating: starBody
+            })
+        })
+        .then((r) => r.json())
+        .then((updatedReview) => onUpdateReview(updatedReview))
+    }
+    
+        return(
+
         <div className="bar-review-card">
             <div className="review-author">{reviewUser[0].display_name}</div>
             <div className="review-rating">{review.star_rating}</div>
-            <div className="review-body">{review.content}</div>            
+            <div className="review-body">{review.content}</div>     
+            <button className="edit-button" onClick={handleEditToggle}>Edit</button> 
+            {toggleEdit ? <form className="edt-form" onSubmit={handleReviewEdit}>
+                <input 
+                    type="text"
+                    name="content"
+                    value={contentBody}
+                    onChange={(e) => setContentBody(e.target.value)}
+                    />
+                <input  
+                    type="text"
+                    name="star_rating"
+                    value={starBody}
+                    onChange={(e) => setStarBody(e.target.value)}
+                    />
+                <input type="submit" value="Save"/>
+            </form> : null}    
+            {console.log(review.user?.username)}
         </div>
     )
 }

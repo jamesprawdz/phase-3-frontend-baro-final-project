@@ -34,6 +34,7 @@ export default function Home ({setClickedBar, setBarCrawlData, setLoggedInUser})
         navigate('/newcrawl')        
      }
 
+
      //function to log out by setting the state of the logged in user to undefined
      //and navigating back to the login page
      function logOut(){
@@ -41,22 +42,32 @@ export default function Home ({setClickedBar, setBarCrawlData, setLoggedInUser})
         navigate('/')
      }
 
+
      
     return(
-        <div>
+        <div className="homepage">
             {/* Test Buttons */}
-            <h1>Home Page</h1>
-            <button type="button" onClick={() => logOut()}> Sign Out</button>
-            <button type="button" onClick={() => navigate('/about')}> About</button>
-            <button type="button" onClick={() => navigate('/account')}> Account Info</button>
-            <button type="button" onClick={() => navigate('/crawllist')}> View all Crawls</button>
 
-
-            <div className="bar-crawl-container">
-                <div className="bar-crawl-list">
-                    {/* show all the bars that were added to the crawl array */}
+            <div className="nav-bar">
+                <button type="button" onClick={() => navigate('/')}> Sign Out</button>
+                <button type="button" onClick={() => navigate('/about')}> About</button>
+                <button type="button" onClick={() => navigate('/account')}> Account Info</button>
+                <button type="button" onClick={() => navigate('/newcrawl')}> Create a Crawl</button>
+                <button type="button" onClick={() => navigate('/crawllist')}> View all Crawls</button>
+            </div>
+            <img className="home-image" src="https://citizenside.com/wp-content/uploads/2022/12/bar-hopping-1-1170x780.jpg" />
+            <h1 className="title">BarO</h1>
+            <div className="welcome-message">
+            <h3>Welcome To BarO</h3>
+            <p className="description">The goal of BarO is to enhance your bar hopping experience to the MAX,</p>
+            <p className= "description">so you will have a night to remember!</p>
+            </div>
+                <div className="bar-crawl-container">
+                    <div className="bar-crawl-list">
                     {crawlArray.map((bar) => {
                         return(
+                            <div>
+
                             <BarCard
                                 type={'crawl'}
                                 setClickedBar={setClickedBar}
@@ -65,11 +76,13 @@ export default function Home ({setClickedBar, setBarCrawlData, setLoggedInUser})
                                 crawlArray={crawlArray}
                                 setCrawlArray={setCrawlArray}                            
                             />
+                            <h1 className="crawl-arrow">----></h1>
+                            </div>
                         )
                     })}
-                </div>
-                <button 
-                    className="bar-crawl-button"
+                    </div>
+                <button className="bar-crawl-button"
+
                     onClick={() => setCrawlArray([])}
                 >Clear Crawl
                 </button>

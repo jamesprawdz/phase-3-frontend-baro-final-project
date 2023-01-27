@@ -3,7 +3,6 @@
 }
 
 .login-background{
-  background-image: url(https://media.tenor.com/plWFIcaMyrEAAAAC/anime-aesthetic.gif);
   background-size: cover;
   height: 100vh;
   padding:0;
@@ -17,6 +16,69 @@
   width: 30%;
   margin-left: 25%;
   margin-top: 25%;  
+  background-color: transparent;
+}
+.welcome{
+  background-color: transparent;
+  color: rgb(255, 153, 29);
+  font-size: 10pc;
+  position: relative;
+  bottom: 100%;
+  left:35%;
+}
+.motto{
+  background-color: transparent;
+  color: rgb(2, 67, 172);
+  font-size: 30px;
+  position: relative;
+  bottom: 125%;
+  left:35%;
+}
+.start-btn{
+  position: relative;
+  bottom: 125%;
+  left:35%;
+
+}
+
+.form-popup{
+  background: rgba(0,0,0,.5);
+  height: 100%;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
+.form-div{
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 38%;
+  left: 35%;
+  width: 30%;
+  background-color: transparent;
+}
+
+.login-form{
+  border-style: solid;
+  border-radius: 10px;
+  font-size: larger;
+}
+.home-image{
+  width: 100%;
+  height: 70pc;
+}
+.welcome-message{
+  position: relative;
+  left: 50pc;
+  bottom: 25pc;
+  font-size: 60px;
+  font-style: italic;
+}
+.description{
+  font-size: 40px;
+  overflow: hidden;
 }
 
 .bar-container{
@@ -54,20 +116,43 @@
 .nav-bar{
   justify-content: center;
   display: flex;
+  position: sticky;
+  top: 0;
+  gap: 1em;
 }
 .nav-bar > button{
   border-color: transparent;
-  font-size: larger;
-  color: rgb(255, 153, 29);
+  font-size: 20px;
+  color: rgb(8, 8, 8);
+  background-color: transparent;
 }
-button:hover{
+.nav-bar > button:hover{
   opacity: 0.3;
+}
+button{
   cursor: pointer;
 }
+
 .title{
-  color: rgb(2, 67, 172);
+ color: rgb(246, 247, 248);
  text-align: center;
+ font-size: 15pc;
  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+ position: relative;
+ bottom: 50pc;
+ background-color: transparent;
+}
+
+.bar-crawl-list{
+  display: flex;
+  gap: 10em;
+}
+
+.crawl-arrow{
+  position: relative;
+  left: 117%;
+  bottom: 40%;
+background-color: transparent;
 }
 
 .bar-card-image{
