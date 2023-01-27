@@ -10,6 +10,7 @@ export default function Home ({setClickedBar, setBarCrawlData, setLoggedInUser, 
     //states list 
     const [barArray, setBarArray] = useState([])
     const [crawlArray, setCrawlArray] = useState([])
+    const [stringcrawlBarIDArray, setStringcrawlBarIDArray] = useState([])
 
     //fetch all the bars 
     const fetchBars = async () => {
@@ -21,6 +22,22 @@ export default function Home ({setClickedBar, setBarCrawlData, setLoggedInUser, 
         fetchBars()
     }, [])  
 
+
+
+    const addCrawls = async () => {
+        fetch ('http://localhost:9292/crawl_list', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                user_id: loggedInUser.id,
+                bar_crawl_name: "test",
+                bar_crawl_bars: stringcrawlBarIDArray
+            })
+        })
+        .then(res => res.json())
+    }
     //function so when we create a crawl, we save the ID's of the bar that we will have on the crawl 
     //as a string and pass it to the new crawl page through states
      function handleCreateCrawlClick(){
@@ -29,10 +46,11 @@ export default function Home ({setClickedBar, setBarCrawlData, setLoggedInUser, 
             return bar.id
         })
         //turn that array into a string
-        let stringcrawlBarIDArray = crawlBarIDArray.toString()
+        setStringcrawlBarIDArray(crawlBarIDArray.toString())
         //set the state of the barCrawlData to the string of the ID's of the bars in the crawl
         setBarCrawlData(stringcrawlBarIDArray)
         //navigate to the new crawl page
+        addCrawls()
         navigate('/newcrawl')        
      }
 
