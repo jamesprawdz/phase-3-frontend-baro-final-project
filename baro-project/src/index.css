@@ -1,4 +1,6 @@
-*{
+
+
+/* *{
   background-color: antiquewhite;
 }
 
@@ -178,7 +180,7 @@ button{
 .bar-info-image{
   height: 50%;
   width: 80%;
-}
+} */
 
 /* .bar-review-card{
   text-align:  center;
@@ -209,3 +211,195 @@ button{
   margin-top: 5%;
 } */
 
+*{
+  background-color: antiquewhite;
+}
+
+.logo{
+  width: 190%;
+  position: relative;
+  bottom: 150%;
+  left: -9%;
+}
+
+.login-background{
+  background-size: cover;
+  height: 100vh;
+  padding:0;
+  margin:0;
+}
+
+.login-div{
+  position: absolute;
+  text-align: center;
+  height: 40%;
+  width: 30%;
+  margin-left: 25%;
+  margin-top: 25%;  
+  background-color: transparent;
+}
+.welcome{
+  background-color: transparent;
+  color: rgb(255, 153, 29);
+  font-size: 10pc;
+  position: relative;
+  bottom: 100%;
+  left:35%;
+}
+.motto{
+  background-color: transparent;
+  color: rgb(2, 67, 172);
+  font-size: 30px;
+  position: relative;
+  bottom: 125%;
+  left:35%;
+}
+.start-btn{
+  position: relative;
+  bottom: 200%;
+  left:35%;
+
+}
+
+.form-popup{
+  background: rgba(0,0,0,.5);
+  height: 100%;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
+.form-div{
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 38%;
+  left: 35%;
+  width: 30%;
+  background-color: transparent;
+}
+
+.login-form{
+  border-style: solid;
+  border-radius: 10px;
+  font-size: larger;
+}
+.home-image{
+  width: 100%;
+  height: 70pc;
+}
+.welcome-message{
+  position: relative;
+  text-align: center;
+  /* left: 50pc; */
+  bottom: 25pc;
+  font-size: 60px;
+  font-style: italic;
+}
+.description{
+  font-size: 40px;
+  overflow: hidden;
+}
+
+.bar-container{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(6, 1fr);
+  align-items: stretch;
+  gap: 1em;
+  margin-left: 5%;
+  margin-top: 5%;
+}
+
+.bar-card{
+  border-style: solid;
+
+  border-radius: 30px;
+  border-color: transparent;
+  height: fit-content;
+  width: 60%;
+  text-align: center;
+  cursor: pointer;
+  position: relative;
+  left: 5%;
+}
+.bar-card-info{
+  text-align:  center;
+  display: grid;
+  position: relative;
+  top: 10em;
+  font-size: larger;
+  font-style: oblique;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  height: 3em;
+  color: rgb(192, 107, 3);
+}
+
+.nav-bar{
+  justify-content: center;
+  display: flex;
+  position: sticky;
+  top: 0;
+  gap: 1em;
+}
+.nav-bar > button{
+  border-color: transparent;
+  font-size: 20px;
+  color: rgb(8, 8, 8);
+  background-color: transparent;
+}
+.nav-bar > button:hover{
+  opacity: 0.3;
+}
+button{
+  cursor: pointer;
+}
+
+.title{
+  color: rgb(246, 247, 248);
+  text-align: center;
+  font-size: 15pc;
+  font-family:sans-serif;
+  position: relative;
+  bottom: 50pc;
+  background-color: transparent;
+}
+
+.bar-crawl-list{
+  display: flex;
+  gap: 10em;
+}
+
+.crawl-arrow{
+  position: relative;
+  left: 117%;
+  bottom: 40%;
+  background-color: transparent;
+}
+
+.bar-card-image{
+  height: 20pc;
+  width: 80%;
+  margin-left: 5%;
+  margin-top: 5%;
+  border-style: solid;
+  border-radius: 30px;
+  border-color: transparent;
+}
+
+.bar-info-page{
+  text-align: center;
+}
+
+.review-body{
+  position: relative;
+  left: 35%;
+  width: 30%;
+  margin: 20px;
+}
+
+.bar-info-page > h3{
+  font-size: 20px;
+  text-decoration: underline;
+}

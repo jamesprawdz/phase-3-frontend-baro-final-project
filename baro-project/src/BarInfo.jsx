@@ -52,8 +52,7 @@ export default function BarInfo({clickedBar, loggedInUser}){
     
     
     return(
-        <div>
-            <h1>Bar Info</h1>
+        <div className="bar-info-page">
             <button type="button" onClick={() => navigate('/home')}> Home</button>
             {/* info about the bar */}
             <h1 className="bar-info-name">{clickedBar.name}</h1>
@@ -64,23 +63,24 @@ export default function BarInfo({clickedBar, loggedInUser}){
             <h2 className="bar-info-price">{clickedBar.price}</h2>
             <h2 className="bar-info-closing-time">{clickedBar.closing_time}</h2>
             {/* form to write a review */}
-            <BarReviewForm clickedBar={clickedBar} loggedInUser={loggedInUser} reviewArray={reviewArray} setReviewArray={setReviewArray}/>
+            <h3>Reviews</h3>
             <br></br>
             {/* show all of the reviews for this bar */}
             <div className="bar-reivew-container">
                 {filteredReviewArray.map((review) => {
                     return (
                         <BarReviewCard
-
+                        
                         key={review.user_id}
                         review={review}
                         userArray={userArray}
                         onUpdateReview={handleUpdateReview}
-
+                        
                         />
                         )
                     })}
             </div>
+            <BarReviewForm clickedBar={clickedBar} loggedInUser={loggedInUser} reviewArray={reviewArray} setReviewArray={setReviewArray}/>
 
         </div>
     )
@@ -127,17 +127,18 @@ function BarReviewCard({review, userArray, onUpdateReview}){
             <div className="review-body">{review.content}</div>     
             <button className="edit-button" onClick={handleEditToggle}>Edit</button> 
             {toggleEdit ? <form className="edt-form" onSubmit={handleReviewEdit}>
-                <input 
-                    type="text"
-                    name="content"
-                    value={contentBody}
-                    onChange={(e) => setContentBody(e.target.value)}
-                    />
                 <input  
                     type="text"
                     name="star_rating"
                     value={starBody}
                     onChange={(e) => setStarBody(e.target.value)}
+                    />
+                <br></br>
+                <input 
+                    type="text"
+                    name="content"
+                    value={contentBody}
+                    onChange={(e) => setContentBody(e.target.value)}
                     />
                 <input type="submit" value="Save"/>
             </form> : null}    
