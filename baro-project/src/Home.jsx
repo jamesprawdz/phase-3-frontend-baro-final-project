@@ -5,7 +5,7 @@ import { MdFavorite, MdOutlineFavoriteBorder } from 'react-icons/md';
 import {SlArrowRight} from 'react-icons/sl'
 
 
-export default function Home ({setClickedBar, setBarCrawlData, setLoggedInUser}){
+export default function Home ({setClickedBar, setBarCrawlData, setLoggedInUser, loggedInUser}){
     const navigate = useNavigate()
     //states list 
     const [barArray, setBarArray] = useState([])
