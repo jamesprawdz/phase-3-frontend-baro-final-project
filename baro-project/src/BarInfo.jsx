@@ -1,4 +1,4 @@
-import { CoPresentSharp } from "@mui/icons-material";
+// import { CoPresentSharp } from "@mui/icons-material";
 import { useState,  useEffect } from "react"
 import { useNavigate } from "react-router-dom";
 import { Form } from "semantic-ui-react";
@@ -57,7 +57,7 @@ export default function BarInfo({clickedBar, loggedInUser}){
             <button type="button" onClick={() => navigate('/home')}> Home</button>
             {/* info about the bar */}
             <h1 className="bar-info-name">{clickedBar.name}</h1>
-            <img className="bar-info-name" src={clickedBar.image} alt={clickedBar.name}/>
+            <img className="bar-info-image" src={clickedBar.image} alt={clickedBar.name}/>
             <h2 className="bar-info-rating">{clickedBar.rating}</h2>
             <h2 className="bar-info-category">{clickedBar.category}</h2>
             <h2 className="bar-info-location">{clickedBar.location}</h2>
@@ -118,7 +118,7 @@ function BarReviewCard({review, onUpdateReview}){
         return(
 
         <div className="bar-review-card">
-            <div className="review-author">{reviewUser[0].display_name}</div>
+            <div className="review-author">{review?.user.display_name}</div>
             <div className="review-rating">{review.star_rating}</div>
             <div className="review-body">{review.content}</div>     
             <button className="edit-button" onClick={handleEditToggle}>Edit</button> 
@@ -137,7 +137,17 @@ function BarReviewCard({review, onUpdateReview}){
                     />
                 <input type="submit" value="Save"/>
             </form> : null}    
-            {console.log(review.user?.username)}
+            {/* {console.log(review.user?.username)} */}
+            <button className="delete-button" onClick={(e) => {
+                fetch(`http://localhost:9292/reviews/${review.id}`, {
+                    method: "DELETE",
+                })
+                .then((r) => r.json())
+                .then((deletedReview) => {
+                    onUpdateReview(deletedReview)
+                })
+            }}
+            >Delete</button>
         </div>
     )
 }
@@ -149,7 +159,7 @@ function BarReviewForm ({loggedInUser}){
     if(loggedInUser === undefined){
         return(
             <div className="review-no-login"> Please Login to Post a Reiview </div>
-        )
+        ) 
     }else{
         return(
             <div>
@@ -158,7 +168,28 @@ function BarReviewForm ({loggedInUser}){
                     <h5>By {loggedInUser.username}</h5>
                     <Form.Input fluid placeholder="Score" onChange={(e) => setReviewScore(e.target.value)}/>
                     <Form.Input fluid placeholder="Content" onChange={(e) => setReviewContent(e.target.value)}/>
-                    <Form.Button type="submit">Post Review</Form.Button>
+                    <Form.Button type="submit" 
+                    onSubmit={(e) => {
+                        e.preventDefault()
+                        fetch('http://localhost:9292/reviews', {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({
+                                content: reviewContent,
+                                star_rating: reviewScore,
+                                user_id: loggedInUser.id,
+                                bar_id: bar_id
+                            })
+                        })
+                        .then((r) => r.json())
+                        .then((newReview) => {
+                            // console.log(newReview)
+                            setReviewArray([...reviewArray, newReview])
+                        })
+                    }}
+                    >Post Review</Form.Button>
                 </Form>
             </div>
         )

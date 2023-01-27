@@ -1,6 +1,8 @@
 import { BentoTwoTone } from "@mui/icons-material"
 import { useState,  useEffect } from "react"
 import { useNavigate } from "react-router-dom"
+import { MdFavorite, MdOutlineFavoriteBorder } from 'react-icons/md';
+import {SlArrowRight} from 'react-icons/sl'
 
 
 export default function Home ({setClickedBar, setBarCrawlData, setLoggedInUser}){
@@ -49,11 +51,11 @@ export default function Home ({setClickedBar, setBarCrawlData, setLoggedInUser})
             {/* Test Buttons */}
 
             <div className="nav-bar">
-                <button type="button" onClick={() => navigate('/')}> Sign Out</button>
                 <button type="button" onClick={() => navigate('/about')}> About</button>
-                <button type="button" onClick={() => navigate('/account')}> Account Info</button>
                 <button type="button" onClick={() => navigate('/newcrawl')}> Create a Crawl</button>
                 <button type="button" onClick={() => navigate('/crawllist')}> View all Crawls</button>
+                <button type="button" onClick={() => navigate('/account')}> Account Info</button>
+                <button type="button" onClick={() => navigate('/')}> Exit</button>
             </div>
             <img className="home-image" src="https://citizenside.com/wp-content/uploads/2022/12/bar-hopping-1-1170x780.jpg" />
             <h1 className="title">BarO</h1>
@@ -76,7 +78,7 @@ export default function Home ({setClickedBar, setBarCrawlData, setLoggedInUser})
                                 crawlArray={crawlArray}
                                 setCrawlArray={setCrawlArray}                            
                             />
-                            <h1 className="crawl-arrow">----></h1>
+                            <h1 className="crawl-arrow"> {<SlArrowRight />} </h1>
                             </div>
                         )
                     })}
@@ -121,7 +123,7 @@ function BarCard({type, setClickedBar, crawlArray, setCrawlArray, bar}) {
     //states to hold the opacity if the cards when the mouse goes over them
     const [mouseOverImage, setMouseOverImage] = useState(1)
     const [mouseOverInfo, setMouseOverInfo] = useState(0)
-
+    const [isFavorited, setIsFavorited] = useState(false)
     //if you click on the bar card, it will navigate to the bar info page
     //and then send the info of that clicked bar to the bar info page with states
     function handleClick(bar){
@@ -130,6 +132,23 @@ function BarCard({type, setClickedBar, crawlArray, setCrawlArray, bar}) {
             navigate('/barinfo')
         }
     }
+
+    function favoriteBar () {
+          // console.log(isFavorited)
+        setIsFavorited(!isFavorited)
+    // console.log(id)
+        fetch(`http://localhost:9292/bars/${bar.id}`, {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              favorited: isFavorited
+            }),
+          })
+            .then((r) => r.json())
+        }
+    
 
     return (
         //change the class name depending on if it is a main bar card or a crawl bar card
@@ -173,6 +192,7 @@ function BarCard({type, setClickedBar, crawlArray, setCrawlArray, bar}) {
             </button>
             :<></>
             }
+            <button className="favorite-button" onClick={(bar) => favoriteBar(bar.id)}>{isFavorited ? <MdFavorite /> : <MdOutlineFavoriteBorder/> }</button>
         </div>
     )
 }
