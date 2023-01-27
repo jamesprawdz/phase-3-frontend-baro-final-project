@@ -1,4 +1,4 @@
-import { CoPresentSharp } from "@mui/icons-material";
+// import { CoPresentSharp } from "@mui/icons-material";
 import { useState,  useEffect } from "react"
 import { useNavigate } from "react-router-dom";
 import { Form } from "semantic-ui-react";
@@ -57,7 +57,7 @@ export default function BarInfo({clickedBar, loggedInUser}){
             <button type="button" onClick={() => navigate('/home')}> Home</button>
             {/* info about the bar */}
             <h1 className="bar-info-name">{clickedBar.name}</h1>
-            <img className="bar-info-name" src={clickedBar.image} alt={clickedBar.name}/>
+            <img className="bar-info-image" src={clickedBar.image} alt={clickedBar.name}/>
             <h2 className="bar-info-rating">{clickedBar.rating}</h2>
             <h2 className="bar-info-category">{clickedBar.category}</h2>
             <h2 className="bar-info-location">{clickedBar.location}</h2>
@@ -74,6 +74,7 @@ export default function BarInfo({clickedBar, loggedInUser}){
 
                         key={review.user_id}
                         review={review}
+                        userArray={userArray}
                         onUpdateReview={handleUpdateReview}
 
                         />
@@ -89,7 +90,7 @@ export default function BarInfo({clickedBar, loggedInUser}){
 
 
 
-function BarReviewCard({review, onUpdateReview}){
+function BarReviewCard({review, userArray, onUpdateReview}){
     const [contentBody, setContentBody] = useState(review.content)
     const [starBody, setStarBody] = useState(review.star_rating)
     const  [toggleEdit, setToggleEdit]  = useState(false);
@@ -114,11 +115,14 @@ function BarReviewCard({review, onUpdateReview}){
         .then((r) => r.json())
         .then((updatedReview) => onUpdateReview(updatedReview))
     }
-    
-        return(
 
+    let userReview = userArray.find((user) => {
+        return user.id === review.user_id
+    })    
+    
+    return(
         <div className="bar-review-card">
-            <div className="review-author">{review?.user.username}</div>
+            <div className="review-author">{userReview.username}</div>
             <div className="review-rating">{review.star_rating}</div>
             <div className="review-body">{review.content}</div>     
             <button className="edit-button" onClick={handleEditToggle}>Edit</button> 
@@ -137,6 +141,19 @@ function BarReviewCard({review, onUpdateReview}){
                     />
                 <input type="submit" value="Save"/>
             </form> : null}    
+
+            {/* {console.log(review.user?.username)} */}
+            <button className="delete-button" onClick={(e) => {
+                fetch(`http://localhost:9292/reviews/${review.id}`, {
+                    method: "DELETE",
+                })
+                .then((r) => r.json())
+                .then((deletedReview) => {
+                    onUpdateReview(deletedReview)
+                }),
+                e.target.parentElement.remove()
+            }}
+            >Delete</button>
         </div>
     )
 }
@@ -175,8 +192,10 @@ function BarReviewForm ({loggedInUser, reviewArray, setReviewArray, clickedBar})
     //if there is no user logged in, show a message
     if(loggedInUser === undefined){
         return(
+
             <div className="review-no-login"> Please Login to Post a Review </div>
         )
+
     }else{
         return(
             <div>

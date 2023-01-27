@@ -8,6 +8,7 @@ import Account from "./Account";
 import NewCrawl from "./NewCrawl";
 import CrawlList from "./CrawlLists";
 
+
 function App() {
 
   //global states that sibiling compnenets may need to access
@@ -34,6 +35,7 @@ function App() {
         setClickedBar={setClickedBar}
         setBarCrawlData={setBarCrawlData}
         setLoggedInUser={setLoggedInUser}
+        loggedInUser={loggedInUser}
       />
     },
     {

@@ -1,13 +1,16 @@
 import { BentoTwoTone } from "@mui/icons-material"
 import { useState,  useEffect } from "react"
 import { useNavigate } from "react-router-dom"
+import { MdFavorite, MdOutlineFavoriteBorder } from 'react-icons/md';
+import {SlArrowRight} from 'react-icons/sl'
 
 
-export default function Home ({setClickedBar, setBarCrawlData, setLoggedInUser}){
+export default function Home ({setClickedBar, setBarCrawlData, setLoggedInUser, loggedInUser}){
     const navigate = useNavigate()
     //states list 
     const [barArray, setBarArray] = useState([])
     const [crawlArray, setCrawlArray] = useState([])
+    const [stringcrawlBarIDArray, setStringcrawlBarIDArray] = useState([])
 
     //fetch all the bars 
     const fetchBars = async () => {
@@ -19,6 +22,22 @@ export default function Home ({setClickedBar, setBarCrawlData, setLoggedInUser})
         fetchBars()
     }, [])  
 
+
+
+    const addCrawls = async () => {
+        fetch ('http://localhost:9292/crawl_list', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                user_id: loggedInUser.id,
+                bar_crawl_name: "test",
+                bar_crawl_bars: stringcrawlBarIDArray
+            })
+        })
+        .then(res => res.json())
+    }
     //function so when we create a crawl, we save the ID's of the bar that we will have on the crawl 
     //as a string and pass it to the new crawl page through states
      function handleCreateCrawlClick(){
@@ -27,10 +46,11 @@ export default function Home ({setClickedBar, setBarCrawlData, setLoggedInUser})
             return bar.id
         })
         //turn that array into a string
-        let stringcrawlBarIDArray = crawlBarIDArray.toString()
+        setStringcrawlBarIDArray(crawlBarIDArray.toString())
         //set the state of the barCrawlData to the string of the ID's of the bars in the crawl
         setBarCrawlData(stringcrawlBarIDArray)
         //navigate to the new crawl page
+        addCrawls()
         navigate('/newcrawl')        
      }
 
@@ -49,16 +69,15 @@ export default function Home ({setClickedBar, setBarCrawlData, setLoggedInUser})
             {/* Test Buttons */}
 
             <div className="nav-bar">
-                <button type="button" onClick={() => navigate('/')}> Sign Out</button>
                 <button type="button" onClick={() => navigate('/about')}> About</button>
-                <button type="button" onClick={() => navigate('/account')}> Account Info</button>
-                <button type="button" onClick={() => navigate('/newcrawl')}> Create a Crawl</button>
                 <button type="button" onClick={() => navigate('/crawllist')}> View all Crawls</button>
+                <button type="button" onClick={() => navigate('/account')}> Account Info</button>
+                <button type="button" onClick={() => navigate('/')}> Exit</button>
             </div>
             <img className="home-image" src="https://citizenside.com/wp-content/uploads/2022/12/bar-hopping-1-1170x780.jpg" />
             <h1 className="title">Baro</h1>
             <div className="welcome-message">
-            <h3>Welcome To Baro</h3>
+            <h3>Welcome To BarO {loggedInUser ? loggedInUser.display_name : ""}</h3>
             <p className="description">The goal of BarO is to enhance your bar hopping experience to the MAX,</p>
             <p className= "description">so you will have a night to remember!</p>
             </div>
@@ -76,7 +95,7 @@ export default function Home ({setClickedBar, setBarCrawlData, setLoggedInUser})
                                 crawlArray={crawlArray}
                                 setCrawlArray={setCrawlArray}                            
                             />
-                            <h1 className="crawl-arrow">----></h1>
+                            <h1 className="crawl-arrow"> {<SlArrowRight />} </h1>
                             </div>
                         )
                     })}
@@ -121,7 +140,7 @@ function BarCard({type, setClickedBar, crawlArray, setCrawlArray, bar}) {
     //states to hold the opacity if the cards when the mouse goes over them
     const [mouseOverImage, setMouseOverImage] = useState(1)
     const [mouseOverInfo, setMouseOverInfo] = useState(0)
-
+    const [isFavorited, setIsFavorited] = useState(false)
     //if you click on the bar card, it will navigate to the bar info page
     //and then send the info of that clicked bar to the bar info page with states
     function handleClick(bar){
@@ -130,6 +149,23 @@ function BarCard({type, setClickedBar, crawlArray, setCrawlArray, bar}) {
             navigate('/barinfo')
         }
     }
+
+    function favoriteBar () {
+          // console.log(isFavorited)
+        setIsFavorited(!isFavorited)
+    // console.log(id)
+        fetch(`http://localhost:9292/bars/${bar.id}`, {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              favorited: isFavorited
+            }),
+          })
+            .then((r) => r.json())
+        }
+    
 
     return (
         //change the class name depending on if it is a main bar card or a crawl bar card
@@ -172,6 +208,7 @@ function BarCard({type, setClickedBar, crawlArray, setCrawlArray, bar}) {
             </button>
             :<></>
             }
+            <button className="favorite-button" onClick={(bar) => favoriteBar(bar.id)}>{isFavorited ? <MdFavorite /> : <MdOutlineFavoriteBorder/> }</button>
         </div>
     )
 }

@@ -54,6 +54,7 @@ export default function Account ({loggedInUser}){
                         <UserReviewCard
                             key={review.bar_id}
                             review={review}
+                            bar={review.bar}
                         />
                     )
                 })}                    
@@ -64,10 +65,11 @@ export default function Account ({loggedInUser}){
 }
 
 //the card that shows each of the user's reviews
-function UserReviewCard({review}){
+function UserReviewCard({review, bar}){
     return(
         <div className="user-review-card">
-            {/* <div className="user-review-bar">{review?.bar.name}</div> */}
+
+            <div className="user-review-bar">{review.bar?.name}</div>
             <div className="review-rating">{review.star_rating}</div>
             <div className="review-body">{review.content}</div>            
         </div>
