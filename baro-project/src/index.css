@@ -154,3 +154,10 @@ button{
   bottom: 40%;
 background-color: transparent;
 }
+
+.bar-card-image{
+  height: 10em;
+  width: 10em;
+  margin-left: 5%;
+  margin-top: 5%;
+}

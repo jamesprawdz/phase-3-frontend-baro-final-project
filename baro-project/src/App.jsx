@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {createBrowserRouter,RouterProvider,} from "react-router-dom";
 import LoginPage from "./LoginPage"
 import Home from "./Home";
@@ -10,10 +10,13 @@ import CrawlList from "./CrawlLists";
 
 function App() {
 
-  const [loggedInUser, setLoggedInUser] = useState(1)
+  //global states that sibiling compnenets may need to access
+  const [loggedInUser, setLoggedInUser] = useState()
   const [clickedBar, setClickedBar] = useState()
-  const [barCrawlData,  setBarCrawlData] = useState()
+  const [barCrawlData,  setBarCrawlData] = useState() 
 
+
+  //all the routes
   const router = createBrowserRouter([
     {
       path: "*",
@@ -21,13 +24,16 @@ function App() {
     },
     {
       path:"/",
-      element: <LoginPage/>
+      element: <LoginPage
+        setLoggedInUser={setLoggedInUser}
+      />
     },
     {
       path: "/home",
       element: <Home
         setClickedBar={setClickedBar}
         setBarCrawlData={setBarCrawlData}
+        setLoggedInUser={setLoggedInUser}
       />
     },
     {
@@ -38,11 +44,14 @@ function App() {
       path:"/barinfo",
       element: <BarInfo
         clickedBar={clickedBar}
+        loggedInUser={loggedInUser}
       />
     },
     {
       path: "/account",
-      element: <Account/>
+      element: <Account
+        loggedInUser={loggedInUser}
+      />
     },
     {
       path: "/newcrawl",
