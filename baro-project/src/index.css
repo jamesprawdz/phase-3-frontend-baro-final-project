@@ -2,6 +2,13 @@
   background-color: antiquewhite;
 }
 
+.logo{
+  width: 190%;
+  position: relative;
+  bottom: 150%;
+  left: -9%;
+}
+
 .login-background{
   background-size: cover;
   height: 100vh;
@@ -36,7 +43,7 @@
 }
 .start-btn{
   position: relative;
-  bottom: 125%;
+  bottom: 200%;
   left:35%;
 
 }
@@ -93,24 +100,26 @@
 
 .bar-card{
   border-style: solid;
-  border-width: 7px;
+
   border-radius: 30px;
-  border-color: rgb(2, 67, 172);
+  border-color: transparent;
   height: fit-content;
   width: 60%;
   text-align: center;
   cursor: pointer;
+  position: relative;
+  left: 5%;
 }
 .bar-card-info{
   text-align:  center;
   display: grid;
   position: relative;
-  top: 5em;
+  top: 10em;
   font-size: larger;
   font-style: oblique;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   height: 3em;
-  color: rgb(255, 153, 29);
+  color: rgb(192, 107, 3);
 }
 
 .nav-bar{
@@ -134,13 +143,13 @@ button{
 }
 
 .title{
- color: rgb(246, 247, 248);
- text-align: center;
- font-size: 15pc;
- font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
- position: relative;
- bottom: 50pc;
- background-color: transparent;
+  color: rgb(246, 247, 248);
+  text-align: center;
+  font-size: 15pc;
+  font-family:sans-serif;
+  position: relative;
+  bottom: 50pc;
+  background-color: transparent;
 }
 
 .bar-crawl-list{
@@ -152,14 +161,18 @@ button{
   position: relative;
   left: 117%;
   bottom: 40%;
-background-color: transparent;
+  background-color: transparent;
 }
 
 .bar-card-image{
-  height: 10em;
-  width: 10em;
+  height: 20pc;
+  width: 80%;
   margin-left: 5%;
   margin-top: 5%;
+  border-style: solid;
+  border-radius: 30px;
+  border-color: transparent;
+}
 }
 
 .bar-info-image{

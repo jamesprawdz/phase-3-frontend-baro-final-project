@@ -64,7 +64,7 @@ export default function BarInfo({clickedBar, loggedInUser}){
             <h2 className="bar-info-price">{clickedBar.price}</h2>
             <h2 className="bar-info-closing-time">{clickedBar.closing_time}</h2>
             {/* form to write a review */}
-            <BarReviewForm loggedInUser={loggedInUser}/>
+            <BarReviewForm clickedBar={clickedBar} loggedInUser={loggedInUser} reviewArray={reviewArray} setReviewArray={setReviewArray}/>
             <br></br>
             {/* show all of the reviews for this bar */}
             <div className="bar-reivew-container">
@@ -122,8 +122,6 @@ function BarReviewCard({review, userArray, onUpdateReview}){
     
     return(
         <div className="bar-review-card">
-
-
             <div className="review-author">{userReview.username}</div>
             <div className="review-rating">{review.star_rating}</div>
             <div className="review-body">{review.content}</div>     
@@ -143,6 +141,7 @@ function BarReviewCard({review, userArray, onUpdateReview}){
                     />
                 <input type="submit" value="Save"/>
             </form> : null}    
+
             {/* {console.log(review.user?.username)} */}
             <button className="delete-button" onClick={(e) => {
                 fetch(`http://localhost:9292/reviews/${review.id}`, {
@@ -159,18 +158,51 @@ function BarReviewCard({review, userArray, onUpdateReview}){
     )
 }
 
-function BarReviewForm ({loggedInUser}){
-    const [reviewScore, setReviewScore] = useState()
+function BarReviewForm ({loggedInUser, reviewArray, setReviewArray, clickedBar}){
+    //const [newReview, setNewReview] = useState([])
+    const [reviewScore, setReviewScore] = useState("")
     const [reviewContent, setReviewContent] = useState("")
+
+    console.log(loggedInUser)
+    const postReview = async () =>{
+    // const newReviewContent = {
+    //     star_rating: reviewScore,
+    //     content: reviewContent
+    // }
+
+
+        const reviewObject = {
+            star_rating: reviewScore,
+            content: reviewContent,
+            user_id: loggedInUser.id,
+            bar_id: clickedBar.id
+        }
+
+       const req = await fetch("http://localhost:9292/reviews",{
+            method: 'POST',
+            header: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(reviewObject)
+        })
+        const resp = await req.json()
+        setReviewArray([...reviewArray, resp])
+
+    }
     //if there is no user logged in, show a message
     if(loggedInUser === undefined){
         return(
-            <div className="review-no-login"> Please Login to Post a Reiview </div>
-        ) 
+
+            <div className="review-no-login"> Please Login to Post a Review </div>
+        )
+
     }else{
         return(
             <div>
-                <Form>
+                <Form onSubmit={(e) => {
+                    e.preventDefault();
+                    postReview()
+                }}>
                     <h3>Write a Review</h3>
                     <h5>By {loggedInUser.username}</h5>
                     <Form.Input fluid placeholder="Score" onChange={(e) => setReviewScore(e.target.value)}/>

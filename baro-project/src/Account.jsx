@@ -68,6 +68,7 @@ export default function Account ({loggedInUser}){
 function UserReviewCard({review, bar}){
     return(
         <div className="user-review-card">
+
             <div className="user-review-bar">{review.bar?.name}</div>
             <div className="review-rating">{review.star_rating}</div>
             <div className="review-body">{review.content}</div>            

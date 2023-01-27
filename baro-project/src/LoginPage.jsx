@@ -1,12 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
-// import { useState } from "react";
-
 import { Form } from "semantic-ui-react";
-
-
-
+import logo1 from './assets/logo1.png'
 
 
 export default function LoginPage ({ setLoggedInUser}){
@@ -22,16 +17,15 @@ export default function LoginPage ({ setLoggedInUser}){
         setToggleLogin(!toggleLogin);
     }
 
-
-                
-
-
-
     //fetch user info
+
     const fetchUsers = async () => {
         const req = await fetch('http://localhost:9292/users')
         const res = await req.json()
         setUserArray(res)
+    }
+    
+                
     }
     useEffect(() => {
         fetchUsers()
@@ -62,33 +56,39 @@ export default function LoginPage ({ setLoggedInUser}){
     }
        
 
-    { return(
+    return(
         <div className="login-background">
             <div className="login-div">
-                <h1>Welcome to BarO</h1>   
-                <Form 
-                    onSubmit={(e) => {
-                        e.preventDefault()
-                        handlLogin()
-                    }} 
-                >
-                    <h3>Please Login</h3> 
-                    <Form.Input fluid placeholder="User Name" onChange={(e) => setUsernameInput(e.target.value)}/>
-                    <Form.Input fluid placeholder="Password" onChange={(e) => setPasswordInput(e.target.value)}/>
-                    <Form.Button type="submit">Login</Form.Button>
-                </Form>
-                <button type="button" onClick={() => navigate('/home')}> Create and Account</button>
-                <br/>
-                <button type="button" onClick={() => handleGuestLogin()}> Continue as Guest</button>
-
+                {/* <h1 className="welcome">BarO</h1>
+                <h2 className="motto">Bar Hopping Made Easy</h2> */}
+                <img className="logo" src={logo1} />
+                <button className="start-btn" onClick={handleToggle}>Begin Hopping</button>
+                { toggleLogin ? <div className="form-popup">
+                    <div className="form-div">
+                        <Form className="login-form" onSubmit={(e) => {
+                            e.preventDefault()
+                            handleLogin()
+                        }}>
+                        <h3>Please Login</h3> 
+                        <Form.Input fluid placeholder="User Name" onChange={(e) => setUsernameInput(e.target.value)}/>
+                        <Form.Input fluid placeholder="Password" onChange={(e) => setPasswordInput(e.target.value)}/>
+                        <Form.Button type="submit">Login</Form.Button>
+                        <br/>
+                        <button type="button" onClick={() => navigate('/home')}> Create an Account</button>
+                        <br/>
+                        <button type="button" onClick={() => handleGuestLogin()}> Continue as Guest</button>
+                        <br/>
+                        <button className="exit-form" onClick={handleToggle}>End Your Journey</button>
+                        </Form> 
+                    </div>
+                </div>: null}
+             </div>
             </div>
-        </div>
-    )
-}}
+        )
 
 
 
-// // tomer
+
     // return(
     //     <div className="login-background">
     //         <div className="login-div">
@@ -128,3 +128,4 @@ export default function LoginPage ({ setLoggedInUser}){
     //         </div>
     //     </div>
     // )
+

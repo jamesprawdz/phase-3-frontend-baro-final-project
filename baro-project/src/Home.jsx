@@ -75,7 +75,7 @@ export default function Home ({setClickedBar, setBarCrawlData, setLoggedInUser, 
                 <button type="button" onClick={() => navigate('/')}> Exit</button>
             </div>
             <img className="home-image" src="https://citizenside.com/wp-content/uploads/2022/12/bar-hopping-1-1170x780.jpg" />
-            <h1 className="title">BarO</h1>
+            <h1 className="title">Baro</h1>
             <div className="welcome-message">
             <h3>Welcome To BarO {loggedInUser ? loggedInUser.display_name : ""}</h3>
             <p className="description">The goal of BarO is to enhance your bar hopping experience to the MAX,</p>
@@ -187,7 +187,6 @@ function BarCard({type, setClickedBar, crawlArray, setCrawlArray, bar}) {
                 {/* show this ifo when we mouse over the bar image */}
                 <div className="bar-card-info" style={{opacity: mouseOverInfo}}>
                     {bar.name}<br></br>
-                    {bar.review}<br></br>
                     {bar.category}<br></br>
                     {bar.price}
                 </div>

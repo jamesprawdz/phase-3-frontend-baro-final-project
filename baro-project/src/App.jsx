@@ -70,6 +70,9 @@ function App() {
 
 
     <div >
+        <head>
+          <title>Baro</title>
+        </head>
       <RouterProvider router={router}/>      
     </div>
   )
