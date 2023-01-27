@@ -8,7 +8,7 @@ export default function About(){
 
     return(
         <div>
-            <h1>BarO Project</h1>
+            <h1>BarO </h1>
             <p>A phase 3 project made by Tomer, James P, and Avi</p>
             <button type="button" onClick={() => navigate('/home')}> Home</button>
         </div>        
