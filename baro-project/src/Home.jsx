@@ -52,7 +52,6 @@ export default function Home ({setClickedBar, setBarCrawlData, setLoggedInUser, 
 
             <div className="nav-bar">
                 <button type="button" onClick={() => navigate('/about')}> About</button>
-                <button type="button" onClick={() => navigate('/newcrawl')}> Create a Crawl</button>
                 <button type="button" onClick={() => navigate('/crawllist')}> View all Crawls</button>
                 <button type="button" onClick={() => navigate('/account')}> Account Info</button>
                 <button type="button" onClick={() => navigate('/')}> Exit</button>
@@ -60,7 +59,7 @@ export default function Home ({setClickedBar, setBarCrawlData, setLoggedInUser, 
             <img className="home-image" src="https://citizenside.com/wp-content/uploads/2022/12/bar-hopping-1-1170x780.jpg" />
             <h1 className="title">BarO</h1>
             <div className="welcome-message">
-            <h3>Welcome To BarO</h3>
+            <h3>Welcome To BarO {loggedInUser ? loggedInUser.display_name : ""}</h3>
             <p className="description">The goal of BarO is to enhance your bar hopping experience to the MAX,</p>
             <p className= "description">so you will have a night to remember!</p>
             </div>
