@@ -74,6 +74,7 @@ export default function BarInfo({clickedBar, loggedInUser}){
 
                         key={review.user_id}
                         review={review}
+                        userArray={userArray}
                         onUpdateReview={handleUpdateReview}
 
                         />
@@ -89,7 +90,7 @@ export default function BarInfo({clickedBar, loggedInUser}){
 
 
 
-function BarReviewCard({review, onUpdateReview}){
+function BarReviewCard({review, userArray, onUpdateReview}){
     const [contentBody, setContentBody] = useState(review.content)
     const [starBody, setStarBody] = useState(review.star_rating)
     const  [toggleEdit, setToggleEdit]  = useState(false);
@@ -114,11 +115,16 @@ function BarReviewCard({review, onUpdateReview}){
         .then((r) => r.json())
         .then((updatedReview) => onUpdateReview(updatedReview))
     }
-    
-        return(
 
+    let userReview = userArray.find((user) => {
+        return user.id === review.user_id
+    })    
+    
+    return(
         <div className="bar-review-card">
-            <div className="review-author">{review?.user.display_name}</div>
+
+
+            <div className="review-author">{userReview.username}</div>
             <div className="review-rating">{review.star_rating}</div>
             <div className="review-body">{review.content}</div>     
             <button className="edit-button" onClick={handleEditToggle}>Edit</button> 
@@ -168,28 +174,7 @@ function BarReviewForm ({loggedInUser}){
                     <h5>By {loggedInUser.username}</h5>
                     <Form.Input fluid placeholder="Score" onChange={(e) => setReviewScore(e.target.value)}/>
                     <Form.Input fluid placeholder="Content" onChange={(e) => setReviewContent(e.target.value)}/>
-                    <Form.Button type="submit" 
-                    onSubmit={(e) => {
-                        e.preventDefault()
-                        fetch('http://localhost:9292/reviews', {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json"
-                            },
-                            body: JSON.stringify({
-                                content: reviewContent,
-                                star_rating: reviewScore,
-                                user_id: loggedInUser.id,
-                                bar_id: bar_id
-                            })
-                        })
-                        .then((r) => r.json())
-                        .then((newReview) => {
-                            // console.log(newReview)
-                            setReviewArray([...reviewArray, newReview])
-                        })
-                    }}
-                    >Post Review</Form.Button>
+                    <Form.Button type="submit">Post Review</Form.Button>
                 </Form>
             </div>
         )
